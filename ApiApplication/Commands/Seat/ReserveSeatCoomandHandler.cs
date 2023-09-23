@@ -84,7 +84,7 @@ namespace ApiApplication.Commands.Seat
                 var orderedSeats = gSeat.OrderBy(s => s.SeatNumber).ToArray();
                 for (var i = 0; i < orderedSeats.Length - 1; i++)
                 {
-                    if ((orderedSeats[i].SeatNumber - orderedSeats[i + 1].SeatNumber) > 0)
+                    if ((orderedSeats[i+1].SeatNumber - orderedSeats[i].SeatNumber) > 1)
                     {
                         return true;
                     }
