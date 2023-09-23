@@ -48,7 +48,7 @@ namespace ApiApplication.Commands.Seat
                 throw new System.Exception("Already paid tickets");
             }
 
-            var notExpired = reservedTickets.Any(t => t.CreatedTime.AddMinutes(10) < DateTime.Now);
+            var notExpired = reservedTickets.Any(t => t.CreatedTime.AddMinutes(10) > DateTime.Now);
             if (notExpired)
             {
                 throw new System.Exception("Tickets are already reserved");

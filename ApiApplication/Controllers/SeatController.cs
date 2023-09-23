@@ -1,11 +1,13 @@
-﻿using ApiApplication.Commands.Showtime;
+﻿using ApiApplication.Commands.Seat;
+using ApiApplication.Commands.Showtime;
+using ApiApplication.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using System.Threading;
-using ApiApplication.Commands.Seat;
+using System.Threading.Tasks;
 
 namespace ApiApplication.Controllers
 {
@@ -20,7 +22,7 @@ namespace ApiApplication.Controllers
         }
         [HttpPost("buy")]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(TicketVM), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -51,7 +53,7 @@ namespace ApiApplication.Controllers
 
         [HttpPost("reserve")]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(TicketVM), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -68,15 +70,15 @@ namespace ApiApplication.Controllers
 
         [HttpGet("{seatId}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TicketVM), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(int showTimeId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById(Guid seatId, CancellationToken cancellationToken)
         {
-            var cmd = new GetShowtimeByIdRequest { ShowtimeId = showTimeId };
-            var showtime = await mediator.Send(cmd, cancellationToken);
-            return Ok(showtime);
+            var cmd = new GetSeatByIdRequest { Id = seatId };
+            var ticketVM = await mediator.Send(cmd, cancellationToken);
+            return Ok(ticketVM);
         }
 
     }
