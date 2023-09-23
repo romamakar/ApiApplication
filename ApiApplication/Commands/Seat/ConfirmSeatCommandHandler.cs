@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ApiApplication.Commands.Seat
 {
-    public class ConfirmSeatCommandHandler : IRequestHandler<ConfirmSeatCommand>
+    public class ConfirmSeatCommandHandler : IRequestHandler<ConfirmSeatCommand, bool>
     {
         private readonly ITicketsRepository ticketsRepository;
 
@@ -13,7 +13,7 @@ namespace ApiApplication.Commands.Seat
         {
             this.ticketsRepository = ticketsRepository;
         }
-        public async Task Handle(ConfirmSeatCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(ConfirmSeatCommand request, CancellationToken cancellationToken)
         {
             var ticket = await ticketsRepository.GetAsync(request.TickedId, cancellationToken);
             if (ticket == null || ticket.Paid)
@@ -21,6 +21,7 @@ namespace ApiApplication.Commands.Seat
                 throw new System.Exception("ticket not found or already paid");
             }
             await ticketsRepository.ConfirmPaymentAsync(ticket, cancellationToken);
+            return true;
         }
     }
 }
