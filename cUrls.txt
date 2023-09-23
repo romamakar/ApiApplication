@@ -1,0 +1,57 @@
+Please add the cURLs of your tests here:
+
+curl -X 'POST' \
+  'https://localhost:7629/api/Showtime/create' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "movieId": "ID-test1",
+  "sessionDate": "2023-09-23",
+  "auditoriumId": 1
+}'
+
+curl -X 'GET' \
+  'https://localhost:7629/api/Showtime/2' \
+  -H 'accept: */*'
+
+
+curl -X 'POST' \
+  'https://localhost:7629/api/Seat/reserve' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "showtimeId": 2,
+  "seatNumbers": [
+    {
+      "row": 1,
+      "seatNumber": 1
+    },
+    {
+      "row": 1,
+      "seatNumber": 2
+    }
+  ]
+}'
+
+curl -X 'POST' \
+  'https://localhost:7629/api/Seat/confirm' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "tickedId": "f8ebcdf9-e8f7-41f5-a94a-c561bf56f583"
+}'
+
+curl -X 'POST' \
+  'https://localhost:7629/api/Seat/buy' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "showtimeId": 2,
+  "seatNumbers": [
+    {
+      "row": 1,
+      "seatNumber": 3
+    }
+  ]
+}'
+
